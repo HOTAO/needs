@@ -1,4 +1,4 @@
-###mysql 语法
+### mysql 语法
 
     （1）创建连接池 createPool 方法
         var pool = mysql.createPool(optioins);
