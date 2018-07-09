@@ -1,9 +1,9 @@
-const { query } = require('../util/db')
-
+const db = require('../util/db.js')
+const db_user = require('../models/user.js')
 const userController = {
-  async getUser(ctx) {
-    const sql = 'select * from user'
-    const userInfo = await query(sql)
+  async login(ctx) {
+    console.log(ctx.query)
+    const userInfo = await db_user.getOneByUserNameAndPassword(ctx.query)
     ctx.body = userInfo
   }
 }

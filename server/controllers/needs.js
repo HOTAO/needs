@@ -1,15 +1,8 @@
-const { query } = require('../util/db')
-
+// const db = require('../util/db')
+const db_needs = require('../models/needs')
 const needController = {
   async getNeeds(ctx) {
-    let apiquery = ''
-    ctx.querystring
-      ? (apiquery = decodeURI(ctx.querystring.replace(/&/g, ' and ')))
-      : (apiquery = '')
-    const sql = `
-      select * from needs ${ctx.querystring ? 'where' : ''} ${apiquery}
-      `
-    const needs = await query(sql)
+    const needs = await db_needs.getNeedsByStatus(ctx.query)
     ctx.body = needs
   },
   async insertNeeds(ctx) {
