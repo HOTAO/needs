@@ -8,10 +8,14 @@ const needController = {
   async insertNeeds(ctx) {
     const now = new Date().toLocaleString()
     const postData = ctx.request.body
-    const sql = `
-      INSERT INTO needs (name,create_time,typeName,type,url) values ('测试新写法','${now}','测试一波','1','www.baidu.com')
-      `
-    await query(sql)
+    console.log(postData)
+    postData.create_time = now
+    // const sql = `
+    //   INSERT INTO needs (name,create_time,typeName,type,url) values ('测试新写法','${now}','测试一波','1','www.baidu.com')
+    //   `
+    const result = await db_needs.create(postData)
+    console.log(result)
+    // await query(sql)
     ctx.body = {
       success: '添加成功'
     }
