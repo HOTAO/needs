@@ -4,8 +4,17 @@ const bodyParser = require('koa-bodyparser')
 const routers = require('./routers/index')
 // const cors = require('./cors/index')
 const cors = require('koa-cors')
+const koaBody = require('koa-body')
 
 app.use(cors())
+app.use(
+  koaBody({
+    multipart: true,
+    formidable: {
+      maxFieldsSize: 1024 * 1024 * 100
+    }
+  })
+)
 
 app.use(bodyParser())
 // 初始化路由中间件

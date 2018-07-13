@@ -10,5 +10,8 @@ export default {
    */
   getNeeds(params) {
     return request.get('/getNeeds', { params })
+  },
+  addNeeds(data) {
+    return request.post('/addNeeds', data)
   }
 }

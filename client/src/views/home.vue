@@ -19,17 +19,19 @@
       </div>
     </div>
     <div class="list">
-      <div class="list-item" v-for="need in needs" :key="need.id">
-        <div class="left">
-          <div class="title">【原型】{{need.name}}</div>
-          <div class="time">{{need.create_time}}</div>
-        </div>
-        <div class="right">
-          <div class="type">
-            <span class="type-color" :style="{backgroundColor: _typeColor(need.type).color}"></span>
-            {{_typeColor(need.type).text}}
+      <div v-for="need in needs" :key="need.id">
+        <a class="list-item" :href="need.path" target="_black">
+          <div class="left">
+            <div class="title">【原型】{{need.name}}</div>
+            <div class="time">{{need.create_time}}</div>
           </div>
-        </div>
+          <div class="right">
+            <div class="type">
+              <span class="type-color" :style="{backgroundColor: _typeColor(need.type).color}"></span>
+              {{_typeColor(need.type).text}}
+            </div>
+          </div>
+        </a>
       </div>
     </div>
   </div>
