@@ -27,16 +27,16 @@ const pool = mysql.createPool({
 npm i
 ```
 
-2.建表，填充数据
+2.初始化项目（建表和填充数据）
 
 ```js
-  node server/index.js
+  node init
 ```
 
 3. 运行项目
 
 ```js
-node server/app.js
+node start
 ```
 
 4.打开浏览器，访问`http://localhost:3000/api/getAllUser`，可以看到数据了
