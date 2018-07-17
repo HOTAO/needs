@@ -1,5 +1,6 @@
 <template>
   <div id="upload">
+    <div class="title">添加需求</div>
     <el-form class="form" ref="form" :model="form" label-width="80px">
       <el-form-item label="需求名称">
         <el-input v-model="form.name"></el-input>
@@ -38,6 +39,9 @@
   margin 60px auto
   padding 60px
   background-color white
+  .title
+    font-size 24px
+    padding-bottom 60px
   .form
     width 460px
     margin 0 auto
@@ -63,6 +67,13 @@ export default {
       api
         .addNeeds(this.form)
         .then(res => {
+          console.log(res)
+          this.$notify({
+            title: '成功',
+            message: res.message,
+            type: 'success'
+          })
+          this.$router.push({ name: 'manager' })
           console.log(res)
         })
         .catch(err => {

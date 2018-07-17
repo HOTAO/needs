@@ -6,7 +6,11 @@ const routers = require('./routers/index')
 const cors = require('koa-cors')
 const koaBody = require('koa-body')
 
-app.use(cors())
+app.use(
+  cors({
+    methods: ['GET', 'POST', 'DELETE', 'PATCH']
+  })
+)
 app.use(
   koaBody({
     multipart: true,

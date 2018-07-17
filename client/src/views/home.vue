@@ -1,7 +1,9 @@
 <template>
   <div id="home">
     <div class="header">
-      <div class="logo">极豆科技</div>
+      <div class="logo">极豆科技
+        <router-link :to="{name: 'manager'}">后台管理</router-link>
+      </div>
       <div class="search">搜索</div>
     </div>
     <div class="tabs">
@@ -106,7 +108,7 @@ export default {
     justify-content space-between
     align-items center
     height 60px
-    width 900px
+    width 1040px
     margin 0 auto
   .tabs
     display flex
@@ -138,7 +140,7 @@ export default {
         background-color white
         bottom -22px
   .list
-    width 900px
+    width 1040px
     margin 48px auto
     .list-item
       display flex

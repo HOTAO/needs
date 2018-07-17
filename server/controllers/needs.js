@@ -17,9 +17,18 @@ const needController = {
     const result = await db_needs.create(postData)
     console.log(result)
     // await query(sql)
-    ctx.body = {
-      success: '添加成功'
-    }
+    ctx.body = { message: '添加成功' }
+  },
+  async deleteNeeds(ctx) {
+    const result = await db_needs.deleteNeedById(ctx.query)
+    console.log(result)
+    ctx.body = { message: '删除成功' }
+  },
+  async updateNeeds(ctx) {
+    // console.log(ctx)
+    const result = await db_needs.updateNeeds(ctx.params.id, ctx.request.body)
+    console.log(result)
+    ctx.body = { message: '修改成功' }
   }
 }
 

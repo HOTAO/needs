@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/views/home'
-import upload from '@/views/upload'
+import create from '@/views/create'
+import manager from '@/views/manager/index'
 
 Vue.use(Router)
 
@@ -14,9 +15,14 @@ export default new Router({
       component: home
     },
     {
-      path: '/upload',
-      name: 'upload',
-      component: upload
+      path: '/create',
+      name: 'create',
+      component: create
+    },
+    {
+      path: '/manager',
+      name: 'manager',
+      component: manager
     }
   ]
 })
