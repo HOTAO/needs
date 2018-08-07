@@ -11,7 +11,7 @@ function getSqlMap() {
 
   let pathArr = basePath.split('/')
   pathArr = pathArr.splice(0, pathArr.length - 1)
-  basePath = pathArr.join('/') + '/models/sql'
+  basePath = pathArr.join('/') + '/models/sql/'
   let fileList = walkFile(basePath, 'sql')
   return fileList
 }

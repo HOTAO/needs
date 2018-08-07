@@ -9,7 +9,12 @@ import {
   table,
   tableColumn,
   notification,
-  popover
+  popover,
+  pagination,
+  checkboxGroup,
+  checkbox,
+  dialog,
+  scrollbar
 } from 'element-ui'
 
 Vue.use(Form)
@@ -21,5 +26,10 @@ Vue.use(Button)
 Vue.use(table)
 Vue.use(tableColumn)
 Vue.use(popover)
+Vue.use(pagination)
+Vue.use(checkboxGroup)
+Vue.use(checkbox)
+Vue.use(dialog)
+Vue.use(scrollbar)
 
 Vue.prototype.$notify = notification

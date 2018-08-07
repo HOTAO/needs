@@ -1,7 +1,9 @@
 import needs from './modules/needs'
+import user from './modules/user'
 
 const api = {
-  ...needs
+  ...needs,
+  ...user
 }
 
 export default api

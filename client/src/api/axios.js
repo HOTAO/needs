@@ -1,7 +1,11 @@
 import axios from 'axios'
 import Qs from 'qs'
 
-const Api = 'http://localhost:3000/api'
+// const Api = 'http://192.168.1.187:8002/api'
+const Api =
+  process.env.NODE_ENV === 'production'
+    ? 'http://192.168.1.187:8002/api'
+    : 'http://localhost:3000/api'
 
 export let API_ROOT = Api
 

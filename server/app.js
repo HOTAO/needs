@@ -1,22 +1,13 @@
 const Koa = require('koa')
-const app = new Koa()
 const bodyParser = require('koa-bodyparser')
 const routers = require('./routers/index')
-// const cors = require('./cors/index')
 const cors = require('koa-cors')
-const koaBody = require('koa-body')
+
+const app = new Koa()
 
 app.use(
   cors({
     methods: ['GET', 'POST', 'DELETE', 'PATCH']
-  })
-)
-app.use(
-  koaBody({
-    multipart: true,
-    formidable: {
-      maxFieldsSize: 1024 * 1024 * 100
-    }
   })
 )
 

@@ -1,33 +1,24 @@
-// const db = require('../util/db')
 const db_needs = require('../models/needs')
-// const upload = require('./upload')
 const needController = {
   async getNeeds(ctx) {
-    const needs = await db_needs.getNeedsByStatus(ctx.query)
-    ctx.body = needs
+    const list = await db_needs.getNeeds(ctx.query)
+    const result = await db_needs.getNeedsCount(ctx.query)
+    ctx.body = { list, count: result[0].total_count || 0 }
   },
   async insertNeeds(ctx) {
-    // const files = upload(ctx)
-    // console.log(files)
-    // return
     const now = new Date().toLocaleString()
     const postData = ctx.request.body
-    console.log(postData)
     postData.create_time = now
     const result = await db_needs.create(postData)
-    console.log(result)
-    // await query(sql)
     ctx.body = { message: '添加成功' }
   },
   async deleteNeeds(ctx) {
     const result = await db_needs.deleteNeedById(ctx.query)
-    console.log(result)
     ctx.body = { message: '删除成功' }
   },
   async updateNeeds(ctx) {
-    // console.log(ctx)
+    ctx.request.body.update_time = new Date().toLocaleString()
     const result = await db_needs.updateNeeds(ctx.params.id, ctx.request.body)
-    console.log(result)
     ctx.body = { message: '修改成功' }
   }
 }

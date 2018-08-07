@@ -1,10 +1,11 @@
-const db = require('../util/db.js')
 const db_user = require('../models/user.js')
 const userController = {
   async login(ctx) {
-    console.log(ctx.query)
-    const userInfo = await db_user.getOneByUserNameAndPassword(ctx.query)
-    ctx.body = userInfo
+    const userInfo = await db_user.getOneByUserNameAndPassword(ctx.request.body)
+    if ((userInfo.status === 400)) {
+      ctx.response.status = userInfo.status
+    }
+    ctx.response.body = userInfo
   }
 }
 

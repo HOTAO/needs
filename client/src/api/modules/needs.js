@@ -5,7 +5,7 @@ export default {
    * @description 获取需求列表
    * @author HOTAO
    * @date 2018-07-09
-   * @param {*} params 查询参数{status:[int]需求状态}
+   * @param {*} params 查询参数{status:[int]需求状态,keyword:[string]关键字搜索}
    * @returns
    */
   getNeeds(params) {
