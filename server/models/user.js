@@ -1,5 +1,5 @@
 const dbUtils = require('../util/db')
-
+const httpCode = require('../util/http-code')
 const user = {
   /**
    * 数据库创建用户
@@ -17,14 +17,15 @@ const user = {
    */
   async getOneByUserNameAndPassword(options) {
     let _sql = `
-    SELECT * from user
-      where password="${options.password}" and name="${options.name}"
-      limit 1`
+      SELECT * from user
+        where password="${options.password}" and name="${options.name}"
+        limit 1`
     let result = await dbUtils.query(_sql)
+    // console.log('result:', result)
     if (Array.isArray(result) && result.length > 0) {
-      result = result[0]
+      result = httpCode.dealResult(200, result[0])
     } else {
-      result = { status: 400, message: '账号密码错误' }
+      result = httpCode.dealResult(401)
     }
     return result
   },

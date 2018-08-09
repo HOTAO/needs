@@ -1,11 +1,20 @@
 const db_user = require('../models/user.js')
+const authEntication = require('../util/auth-entication.js')
+//
 const userController = {
   async login(ctx) {
     const userInfo = await db_user.getOneByUserNameAndPassword(ctx.request.body)
-    if ((userInfo.status === 400)) {
-      ctx.response.status = userInfo.status
+    ctx.status = userInfo.status
+    if (userInfo.status === 200) {
+      let authInfo = authEntication.generateToken({
+        name: userInfo.data.name,
+        password: userInfo.data.password
+      })
+      delete userInfo.data.password
+      ctx.response.body = { userInfo, authInfo }
+    } else {
+      ctx.response.body = { userInfo }
     }
-    ctx.response.body = userInfo
   }
 }
 

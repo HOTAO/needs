@@ -1,5 +1,7 @@
 const dbUtils = require('../util/db')
-const dbMethods = require('../util/dbMethods')
+const dbMethods = require('../util/db-methods')
+const httpCode = require('../util/http-code')
+
 const needs = {
   /**
    * @description 数据库创建用户
@@ -26,12 +28,17 @@ const needs = {
     keyword = '',
     type = ''
   } = {}) {
-    // const query = status ? `where status =${status}` : ''
-    let query = dbMethods.andWhere(arguments[0])
-    const _sql = `select * from needs ${query}  ORDER BY create_time DESC limit ${(page -
-      1) *
-      pageSize}, ${pageSize} `
-    let result = await dbUtils.query(_sql)
+    let result = []
+    try {
+      let query = dbMethods.andWhere(arguments[0])
+      const _sql = `select * from needs ${query}  ORDER BY create_time DESC limit ${(page -
+        1) *
+        pageSize}, ${pageSize} `
+      result = await dbUtils.query(_sql)
+      result = httpCode.dealResult(200, result)
+    } catch (error) {
+      result = httpCode.dealResult(500)
+    }
     return result
   },
   /**
@@ -42,15 +49,15 @@ const needs = {
    * @returns
    */
   async getNeedsCount({ status = '', keyword = '' } = {}) {
-    let query = status || keyword ? 'where ' : ''
-    query += status ? `status = ${status}` : ''
-    query += status && keyword ? ' and ' : ''
-    query += keyword ? ` name like '%${keyword}%'` : ''
-
-    // const query = options.status ? `${query}` : ''
-
-    const _sql = `SELECT COUNT(*) AS total_count FROM needs ${query}`
-    let result = await dbUtils.query(_sql)
+    let result = []
+    try {
+      let query = dbMethods.andWhere(arguments[0])
+      const _sql = `SELECT COUNT(*) AS total_count FROM needs ${query}`
+      result = await dbUtils.query(_sql)
+      result = httpCode.dealResult(200, result)
+    } catch (error) {
+      result = httpCode.dealResult(500)
+    }
     return result
   },
 
@@ -62,11 +69,23 @@ const needs = {
    * @returns
    */
   async deleteNeedById(options) {
-    let result = await dbUtils.deleteDataById('needs', options.id)
+    let result = []
+    try {
+      result = await dbUtils.deleteDataById('needs', options.id)
+      result = httpCode.dealResult(200, result)
+    } catch (error) {
+      result = httpCode.dealResult(500)
+    }
     return result
   },
   async updateNeeds(id, options) {
-    let result = await dbUtils.updateData('needs', options, id)
+    let result = []
+    try {
+      result = await dbUtils.updateData('needs', options, id)
+      result = httpCode.dealResult(200, result)
+    } catch (error) {
+      result = httpCode.dealResult(500)
+    }
     return result
   }
 }
