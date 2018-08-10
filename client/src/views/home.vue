@@ -3,7 +3,7 @@
     <div class="header">
       <div class="logo">
         <img src="~@/assets/logo.png" alt="">
-        <a @click="isLogin=true">后台管理</a>
+        <a @click="_goBackstage">后台管理</a>
       </div>
       <div class="search">
         <el-input ref="search" @blur="search.long = false" @keyup.enter.native="_search" :class="{force: search.long}" @focus="search.long = true" suffix-icon="el-icon-search" placeholder="请输入内容" v-model="search.value">
@@ -68,6 +68,7 @@
 </template>
 <script>
 import api from '../api/index.js'
+import cache from '../cache/index.js'
 export default {
   name: 'home',
   data() {
@@ -106,6 +107,13 @@ export default {
     await this._getNeeds()
   },
   methods: {
+    _goBackstage() {
+      if (cache.lsCache.get('userInfo')) {
+        this.$router.push({ name: 'manager' })
+      } else {
+        this.isLogin = true
+      }
+    },
     _login() {
       this.$refs.login.validate(valid => {
         if (valid) {
@@ -113,6 +121,8 @@ export default {
             .login(this.user)
             .then(res => {
               console.log(res)
+              cache.lsCache.set('token', res.authInfo.token, res.authInfo.exp)
+              cache.lsCache.set('userInfo', res.userInfo.data, res.authInfo.exp)
               this.$router.push({ name: 'manager' })
             })
             .catch(err => {
