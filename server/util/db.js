@@ -91,7 +91,7 @@ const db = {
    * @author HOTAO
    * @date 2018-07-05
    * @param {*} table 表名
-   * @param {*} values 更新内容
+   * @param {*} values 更新字段键值对 例如：{id: 123}
    * @param {*} id 行ID
    * @returns
    */

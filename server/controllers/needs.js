@@ -12,9 +12,9 @@ const needController = {
   },
   async insertNeeds(ctx) {
     const result = await authEnticationByToken(ctx, async function() {
-      const now = new Date().toLocaleString()
+      const now = +new Date()
       const postData = ctx.request.body
-      postData.create_time = now
+      postData.create_time = parseInt(now / 1000)
       await db_needs.create(postData)
       return { status: 200, message: '添加成功' }
     })
