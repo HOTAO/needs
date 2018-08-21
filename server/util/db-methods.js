@@ -8,9 +8,11 @@ const dbMethods = {
       }
     })
     querys.map((item, index) => {
+      const isKeyWord = item === 'keyword'
+      isKeyWord ? (params[item] = `%${params[item]}%`) : ''
       search += `${index === 0 ? ' where' : ' and'} ${
-        item === 'keyword' ? 'name' : item
-      } = ${
+        isKeyWord ? 'name' : item
+      } ${isKeyWord ? 'like' : '='} ${
         typeof params[item] === 'number' ? params[item] : `'${params[item]}'`
       }`
     })

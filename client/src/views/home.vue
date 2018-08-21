@@ -16,21 +16,25 @@
       </div>
     </div>
     <div class="list">
-      <div v-for="need in needsInfo.list" :key="need.id">
-        <div class="list-item" @click="_openDialog(need)">
-          <div class="left">
-            <div class="title">{{need.name}}</div>
-            <div class="time">{{need.create_time}}</div>
-          </div>
-          <div class="right">
-            <div class="type" v-for="classify in JSON.parse(need.classifys)" :key="classify">
-              <span class="type-color" :style="{backgroundColor: _typeColor(classify).color}"></span>
-              {{_typeColor(classify).text}}
+      <transition name="fade">
+        <p class="list-item" v-show="needsInfo.count<=0">都没上传，哪来的需求，不要瞎鸡儿搞事。不然我TM反手就是一......张过去的CD</p>
+      </transition>
+      <transition-group name="staggered-fade" tag="ul" v-bind:css="false" v-on:before-enter="_beforeEnter" v-on:enter="_enter" v-on:leave="_leave">
+        <div v-for="(need, index) in needsInfo.list" data-aa="你好" :data-index="index" :key="need.id">
+          <div class="list-item" @click="_openDialog(need)">
+            <div class="left">
+              <div class="title">{{need.name}}</div>
+              <div class="time">{{need.create_time}}</div>
+            </div>
+            <div class="right">
+              <div class="type" v-for="classify in JSON.parse(need.classifys)" :key="classify">
+                <span class="type-color" :style="{backgroundColor: _typeColor(classify).color}"></span>
+                {{_typeColor(classify).text}}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <p v-show="needsInfo.count<=0">都没上传，哪来的需求，不要瞎鸡儿搞事。不然我TM反手就是一......张过去的CD</p>
+      </transition-group>
     </div>
     <el-pagination v-show="needsInfo.count>0" class="pagintion" background layout="prev, pager, next" @current-change="_handleCurrentChange" :current-page="params.page" :page-size="params.pageSize" :total="needsInfo.count">
     </el-pagination>
@@ -69,6 +73,7 @@
 <script>
 import api from '../api/index.js'
 import cache from '../cache/index.js'
+import Velocity from 'velocity-animate'
 export default {
   name: 'home',
   data() {
@@ -107,6 +112,22 @@ export default {
     await this._getNeeds()
   },
   methods: {
+    _beforeEnter(el) {
+      el.style.opacity = 0
+      el.style.height = 0
+    },
+    _enter(el, done) {
+      var delay = el.dataset.index * 150
+      setTimeout(() => {
+        Velocity(el, { opacity: 1, height: '6.875em' }, { complete: done })
+      }, delay)
+    },
+    _leave(el, done) {
+      var delay = el.dataset.index * 150
+      setTimeout(function() {
+        Velocity(el, { opacity: 0, height: 0 }, { complete: done })
+      }, delay)
+    },
     _goBackstage() {
       if (cache.lsCache.get('userInfo')) {
         this.$router.push({ name: 'manager' })
@@ -223,6 +244,29 @@ export default {
 
 <style lang="stylus" scoped>
 $width = 860px
+.list-item
+  display inline-block
+  margin-right 10px
+  // transition all 1s
+.list-enter-active
+  transition all 1s
+.list-leave-active
+  transition all 1s
+.fade-enter-active, .fade-leave-active
+  transition all 1s
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+  opacity 0
+  margin-top -110px
+// .list-leave-active
+// position absolute
+.list-leave-to
+  opacity 0
+  transform translateY(90px)
+.list-enter
+  opacity 0
+  transform translateY(90px)
+// .list-move
+// transition transform 1s
 #home
   .header
     display flex
@@ -278,13 +322,14 @@ $width = 860px
       height 60px
       line-height @height
       cursor pointer
+      transition 0.5s
       &:hover
         font-size 20px
         font-weight bold
         padding 0 26px
       &:not(:last-child)
         &:after
-          content ''
+          // content ''
           position absolute
           width 1px
           height 16px
@@ -311,7 +356,9 @@ $width = 860px
         bottom 0
   .list
     width $width
-    margin 48px auto
+    padding 48px 0
+    margin auto
+    overflow-y hidden
     .list-item
       display flex
       justify-content space-between
@@ -321,6 +368,9 @@ $width = 860px
       margin-bottom 20px
       background-color white
       cursor pointer
+      transition 1s
+      &:hover
+        background #efefef
     .right
       display flex
       justify-content space-around
