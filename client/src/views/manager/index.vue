@@ -189,6 +189,7 @@ export default {
   name: 'manager',
   data() {
     return {
+      isEdit: false,
       filterStatus: [],
       statusLabel: '全部',
       page: 1,
@@ -327,10 +328,12 @@ export default {
       params.downloadPath = /http:\/\//.test(params.downloadPath)
         ? params.downloadPath
         : `http://${location.hostname}:8003/${params.downloadPath}`
+      params.create_time = parseInt(+new Date(params.create_time) / 1000)
       api
         .updateNeeds(needId, params)
         .then(res => {
           this._getNeeds()
+          this.isEdit = false
           this.$notify({
             title: '成功',
             message: res.message,
@@ -338,6 +341,7 @@ export default {
           })
         })
         .catch(err => {
+          this.isEdit = false
           this.$notify({
             title: '错误',
             message: err,

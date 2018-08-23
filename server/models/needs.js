@@ -31,8 +31,9 @@ const needs = {
     let result = []
     try {
       let query = arguments[0] ? dbMethods.andWhere(arguments[0]) : ''
-      const _sql = `select *, from_unixtime(create_time,'%Y-%m-%d %m %
-%h:%i:%s') as create_time from needs ${query}  ORDER BY create_time DESC limit ${(page - 1) * pageSize}, ${pageSize} `
+      const _sql = `select *, from_unixtime(create_time,'%Y-%m-%d %h:%i:%s') as create_time from needs ${query}  ORDER BY create_time DESC limit ${(page -
+        1) *
+        pageSize}, ${pageSize} `
       console.log(_sql)
       result = await dbUtils.query(_sql)
       result = httpCode.dealResult(200, result)
