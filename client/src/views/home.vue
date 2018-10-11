@@ -44,12 +44,12 @@
           <h1>在线看</h1>
           <div class="online-btn">
             <el-button :disabled="!need.path" @click="_openNewWindow(need.path)" round>原型</el-button>
-            <el-button :disabled="!need.wordPath" @click="_openNewWindow(need.wordPath)" round>需求文档</el-button>
+            <el-button class="border-btn" :disabled="!need.wordPath" @click="_openNewWindow(need.wordPath)" round>需求文档</el-button>
           </div>
         </div>
         <div class="right">
           <h1>下载</h1>
-          <el-button :disabled="!need.downloadPath" @click="_openNewWindow(need.downloadPath, true)" round>下载文件</el-button>
+          <el-button class="border-btn" :disabled="!need.downloadPath" @click="_openNewWindow(need.downloadPath, true)" round>下载文件</el-button>
         </div>
       </div>
     </el-dialog>
@@ -441,8 +441,16 @@ $width = 860px
       // box-shadow 0 0 1px 1px #1c1d1f
       &:disabled
         content ''
-        background-color #a8a8a8
+        background-color #a8a8a8 !important
         border-color #a8a8a8
+      &:hover
+        background-color rgba(#1c1d1f, 0.8)
+    .border-btn
+      background-color white
+      color #1c1d1f
+      &:hover
+        background-color white
+        color rgba(#1c1d1f, 0.8)
     .online-btn
       width 130px
     .left

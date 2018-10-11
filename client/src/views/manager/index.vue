@@ -59,16 +59,16 @@
             <el-button style="float: right" type="primary" @click="_updateNeed">保存</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="Id" prop="id" width="60px">
-        </el-table-column>
+        <!-- <el-table-column label="Id" prop="id" width="60px">
+        </el-table-column> -->
         <el-table-column label="名字" prop="name">
         </el-table-column>
-        <el-table-column :label="statusLabel" prop="status" :filters="[{text:'进行',value:1},{text:'等待',value:2},{text:'暂缓',value:3}]" :filter-multiple="false" :filtered-value="filterStatus">
+        <el-table-column :label="statusLabel" prop="status" :filters="[{text:'进行',value:1},{text:'等待',value:2},{text:'暂缓',value:3}]" :filter-multiple="false" :filtered-value="filterStatus" width="80">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ _status(scope.row.status) }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="类型">
+        <el-table-column label="类型" width="80">
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ _types(scope.row.type) }}</span>
           </template>
@@ -319,15 +319,18 @@ export default {
       const needId = params.id
       params.classifys = JSON.stringify(params.classifys)
       delete params.id
-      params.path = /http:\/\//.test(params.path)
-        ? params.path
-        : `http://${location.hostname}:8003/${params.path}`
-      params.wordPath = /http:\/\//.test(params.wordPath)
-        ? params.wordPath
-        : `http://${location.hostname}:8003/${params.wordPath}`
-      params.downloadPath = /http:\/\//.test(params.downloadPath)
-        ? params.downloadPath
-        : `http://${location.hostname}:8003/${params.downloadPath}`
+      params.path =
+        /http:\/\//.test(params.path) || !params.path
+          ? params.path
+          : `http://${location.hostname}:8003/${params.path}`
+      params.wordPath =
+        /http:\/\//.test(params.wordPath) || !params.wordPath
+          ? params.wordPath
+          : `http://${location.hostname}:8003/${params.wordPath}`
+      params.downloadPath =
+        /http:\/\//.test(params.downloadPath) || !params.downloadPath
+          ? params.downloadPath
+          : `http://${location.hostname}:8003/${params.downloadPath}`
       params.create_time = parseInt(+new Date(params.create_time) / 1000)
       api
         .updateNeeds(needId, params)
