@@ -175,6 +175,7 @@ export default {
       this._getNeeds()
     },
     _handleTabChange(index) {
+      this.search.value = ''
       this.params.witchTab = index
       this.$router.push({ query: { page: 1, tab: this.params.witchTab } })
       this._getNeeds()
